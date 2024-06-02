@@ -17,4 +17,5 @@ func InitRouter() *echo.Echo {
 func attachRoutes(e *echo.Echo) {
 	e.POST("/shorten", handler.ShortenURL)
 	e.GET("/:url", handler.RedirectURL)
+	e.GET("/debug/list", handler.ListAll)
 }
