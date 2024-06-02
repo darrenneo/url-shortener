@@ -1,12 +1,10 @@
 package main
 
 import (
-	"fmt"
-
 	"url-shortener/internal/router"
 )
 
 func main() {
-	fmt.Println("Hello, World!")
-	router.InitRouter()
+	e := router.InitRouter()
+	e.Logger.Fatal(e.Start("localhost:8000"))
 }
