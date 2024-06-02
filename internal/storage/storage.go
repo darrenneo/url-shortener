@@ -9,7 +9,7 @@ func InitStorage() {
 }
 
 func AddURL(orginal, new string) error {
-	exist := checkExisting(new)
+	_, exist := GetURL(new)
 
 	if exist {
 		return fmt.Errorf("new URL name exist")
@@ -26,7 +26,7 @@ func ListAll() {
 	}
 }
 
-func checkExisting(key string) bool {
-	_, ok := urlMap[key]
-	return ok
+func GetURL(key string) (string, bool) {
+	value, ok := urlMap[key]
+	return value, ok
 }
