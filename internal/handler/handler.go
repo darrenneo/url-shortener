@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
+	"strings"
 
 	"url-shortener/internal/model"
 	"url-shortener/internal/storage"
@@ -28,11 +29,28 @@ func ShortenURL(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
-	storage.ListAll()
-
-	return nil
+	return c.JSON(http.StatusOK, "URL shortened")
 }
 
 func RedirectURL(c echo.Context) error {
-	return nil
+	url := c.Param("url")
+	originalURL, exist := storage.GetURL(url)
+
+	if !exist {
+		return c.JSON(http.StatusNotFound, "URL not found")
+	}
+	redirectUrl := checkPrefix(originalURL)
+	return c.Redirect(http.StatusMovedPermanently, redirectUrl)
+}
+
+func checkPrefix(url string) string {
+	if !strings.HasPrefix(url, "http://") && !strings.HasPrefix(url, "https://") {
+		url = "http://" + url
+	}
+	return url
+}
+
+func ListAll(c echo.Context) error {
+	storage.ListAll()
+	return c.JSON(http.StatusOK, "Listed all URLs")
 }
