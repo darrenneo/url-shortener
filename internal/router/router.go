@@ -10,6 +10,7 @@ func InitRouter() *echo.Echo {
 	e := echo.New()
 	e.HideBanner = true
 	e.HidePort = true
+	attachRoutes(e)
 	return e
 }
 
