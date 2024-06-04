@@ -13,13 +13,12 @@ import (
 )
 
 func ShortenURL(c echo.Context) error {
-	if c.Request().Body == nil {
-		return c.JSON(http.StatusBadRequest, "Missing body")
-	}
-
 	rawData, err := io.ReadAll(c.Request().Body)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, "Invalid body")
+	}
+	if rawData == nil {
+		return c.JSON(http.StatusBadRequest, "Empty body")
 	}
 
 	apiRequest := model.ApiRequest{}
